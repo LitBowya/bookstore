@@ -1,10 +1,26 @@
+
+// Importing packages
 import express from "express";
 import path from "path";
 import session from "express-session";
 import dotenv from "dotenv";
-import connectDB from "./config/dbConfig.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+
+// Importing routes and needed files
+import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import bookRoutes from './routes/bookRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
+
+// Import database
+import connectDB from "./config/dbConfig.js";
+
+// Import errorHandler
+import errorHandler from "./middleware/errorHandler.js";
 
 // 1. Initialize environment variables
 dotenv.config();
@@ -42,6 +58,18 @@ app.use(
         saveUninitialized: true,
     })
 );
+
+// 9. Define routes
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/books', bookRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/payments', paymentRoutes);
+
+// 10. Error handling middleware
+app.use(errorHandler);
 
 // 11. Start the server
 const PORT = process.env.PORT || 8000;

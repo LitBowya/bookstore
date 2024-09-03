@@ -2,12 +2,11 @@
 import User from "../models/userModel.js";
 import logger from "../utils/logger.js";
 import generateToken from "../utils/generateToken.js";
-import bcrypt from "bcryptjs";
 
 // Register a new user
 export const registerUser = async (req, res, next) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, address, isAdmin } = req.body;
 
         // Check if the user already exists
         let user = await User.findOne({ email });
@@ -18,14 +17,28 @@ export const registerUser = async (req, res, next) => {
             });
         }
 
+        // Validate and process the address array if provided
+        let processedAddress = [];
+        if (address && Array.isArray(address)) {
+            processedAddress = address.map(addr => ({
+                region: addr.region || "",
+                city: addr.city || "",
+                town: addr.town || "",
+                address: addr.address || "",
+                phoneNumber: addr.phoneNumber || "",
+            }));
+        }
+
         // Check if a profile image was uploaded
-        const profilePicture = req.file ? `/${req.file.path}` : ""; // Save the path of the uploaded file
+        const profilePicture = req.file ? `/${req.file.path}` : "";
 
         // Create new user
         user = new User({
             name,
             email,
             password,
+            isAdmin,
+            address: processedAddress,
             profilePicture,
         });
 
@@ -37,7 +50,15 @@ export const registerUser = async (req, res, next) => {
         res.status(201).json({
             status: "success",
             message: "User registered successfully",
-            user,
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                address: user.address, // Return the address array
+                profilePicture: user.profilePicture,
+                createdAt: user.createdAt,
+            },
         });
     } catch (error) {
         res.status(500).json({

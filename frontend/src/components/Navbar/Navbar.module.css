@@ -1,0 +1,12 @@
+.navbar{
+    width: 90vw;
+    margin-block: 10px;
+    margin-inline: auto;
+    border-radius: 50px;
+    padding-block: 0;
+    background-color: red;
+
+    .toolbar{
+        height: 50px;
+    }
+}

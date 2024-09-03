@@ -29,28 +29,39 @@ const storage = multer.diskStorage({
 // File filter function
 function fileFilter(req, file, cb) {
     logger.debug(`Filtering file: ${file.originalname}`);
-    const filetypes = /jpe?g|png|webp/;
-    const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
+    const imageFiletypes = /jpe?g|png|webp/;
+    const pdfFiletypes = /pdf/;
+    const imageMimetypes = /image\/jpe?g|image\/png|image\/webp/;
+    const pdfMimetype = /application\/pdf/;
 
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = mimetypes.test(file.mimetype);
-
-    if (extname && mimetype) {
-        logger.debug("File type is valid");
-        cb(null, true);
+    if (file.fieldname === 'coverImage') {
+        const extname = imageFiletypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = imageMimetypes.test(file.mimetype);
+        if (extname && mimetype) {
+            logger.debug("Cover image file type is valid");
+            cb(null, true);
+        } else {
+            logger.error("Invalid cover image file type");
+            cb(new Error("Cover images only!"), false);
+        }
+    } else if (file.fieldname === 'bookPdf') {
+        const extname = pdfFiletypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = pdfMimetype.test(file.mimetype);
+        if (extname && mimetype) {
+            logger.debug("PDF file type is valid");
+            cb(null, true);
+        } else {
+            logger.error("Invalid PDF file type");
+            cb(new Error("PDFs only!"), false);
+        }
     } else {
-        logger.error("Invalid file type");
-        cb(new Error("Images only!"), false);
+        logger.error("Invalid file field");
+        cb(new Error("Invalid file field"), false);
     }
 }
 
-// Single image upload middleware
-export const uploadSingleImage = multer({ storage, fileFilter }).single(
-    "profilePicture"
-);
-
-// Multiple file upload middleware
-export const uploadMultipleFiles = multer({ storage, fileFilter }).array(
-    "file",
-    10
-);
+// Middleware for handling multiple files
+export const uploadBookFiles = multer({ storage, fileFilter }).fields([
+    { name: 'coverImage', maxCount: 1 },
+    { name: 'bookPdf', maxCount: 1 }
+]);

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const bookSchema = new mongoose.Schema({
     title: {
@@ -23,11 +23,13 @@ const bookSchema = new mongoose.Schema({
     category: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Category' // Reference to Category model
+        ref: 'Category'
     },
     coverImage: {
-        type: String, // URL to the cover image
-        required: true
+        type: String,
+    },
+    bookPdf: {
+        type: String,
     },
     stock: {
         type: Number,
@@ -40,4 +42,4 @@ const bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model('Book', bookSchema);
 
-module.exports = Book;
+export default Book;
