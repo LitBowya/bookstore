@@ -6,7 +6,7 @@ import generateToken from "../utils/generateToken.js";
 // Register a new user
 export const registerUser = async (req, res, next) => {
     try {
-        const { name, email, password, address, isAdmin } = req.body;
+        const { name, email, password, region, city, town, address, phoneNumber, isAdmin } = req.body;
 
         // Check if the user already exists
         let user = await User.findOne({ email });
@@ -15,18 +15,6 @@ export const registerUser = async (req, res, next) => {
                 status: "failed",
                 message: "User already exists",
             });
-        }
-
-        // Validate and process the address array if provided
-        let processedAddress = [];
-        if (address && Array.isArray(address)) {
-            processedAddress = address.map(addr => ({
-                region: addr.region || "",
-                city: addr.city || "",
-                town: addr.town || "",
-                address: addr.address || "",
-                phoneNumber: addr.phoneNumber || "",
-            }));
         }
 
         // Check if a profile image was uploaded
@@ -38,7 +26,13 @@ export const registerUser = async (req, res, next) => {
             email,
             password,
             isAdmin,
-            address: processedAddress,
+            address: {
+                region,
+                city,
+                town,
+                address,
+                phoneNumber,
+            },
             profilePicture,
         });
 
@@ -55,7 +49,7 @@ export const registerUser = async (req, res, next) => {
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
-                address: user.address, // Return the address array
+                address: user.address,
                 profilePicture: user.profilePicture,
                 createdAt: user.createdAt,
             },
@@ -68,6 +62,7 @@ export const registerUser = async (req, res, next) => {
         next(error);
     }
 };
+
 
 // Login a user
 export const loginUser = async (req, res, next) => {

@@ -20,29 +20,28 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
-        address: [{
+        address: {
             region: {
                 type: String,
-                required: true,
+                
             },
             city: {
                 type: String,
-                required: true,
+                
             },
             town: {
                 type: String,
-                required: true,
+                
             },
             address: {
                 type: String,
-                required: true,
+                
             },
             phoneNumber: {
                 type: String,
-                required: true,
+                
             },
-        }
-        ],
+        },
         createdAt: {
             type: Date,
             default: Date.now,

@@ -1,12 +1,13 @@
 
 import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar/Navbar";
 
 const WithNavbarLayout = () => {
   return (
     <div>
-      {/* <Navbar />  */}
+      <Navbar />
       <main>
-        <Outlet /> {/* Renders nested routes */}
+        <Outlet />
       </main>
     </div>
   );

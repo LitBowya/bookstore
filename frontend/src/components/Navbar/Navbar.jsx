@@ -14,12 +14,16 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import NavbarCss from './Navbar.module.css'
+import { FaUser } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import NavbarCss from "./Navbar.module.css";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const userInfo = useSelector((state) => state.auth.userInfo);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -61,8 +65,27 @@ const Navbar = () => {
                 component={Link}
                 to="/contact"
               >
-                Contact
+                <FaUser />
               </MenuItem>
+              {userInfo ? (
+                <>
+                  <MenuItem
+                    onClick={handleMenuClose}
+                    component={Link}
+                    to="/profile"
+                  >
+                    <FaUser />
+                  </MenuItem>
+                </>
+              ) : (
+                <MenuItem
+                  onClick={handleMenuClose}
+                  component={Link}
+                  to="/login"
+                >
+                  <FaUser />
+                </MenuItem>
+              )}
             </Menu>
           </>
         ) : (
@@ -73,9 +96,15 @@ const Navbar = () => {
             <Button color="inherit" component={Link} to="/about">
               About
             </Button>
-            <Button color="inherit" component={Link} to="/contact">
-              Contact
-            </Button>
+            {userInfo ? (
+              <Button color="inherit" component={Link} to="/profile">
+                <FaUser />
+              </Button>
+            ) : (
+              <Button color="inherit" component={Link} to="/login">
+                <FaUser />
+              </Button>
+            )}
           </div>
         )}
       </Toolbar>
