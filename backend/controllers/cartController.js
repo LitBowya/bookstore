@@ -20,35 +20,32 @@ export const addItemToCart = async (req, res) => {
     const { bookId, quantity } = req.body;
 
     try {
-        // Validate the book ID
         const book = await Book.findById(bookId);
         if (!book) {
             return res.status(404).json({ message: 'Book not found' });
         }
 
-        // Find or create the cart
         let cart = await Cart.findOne({ user: req.user._id });
         if (!cart) {
             cart = new Cart({ user: req.user._id, items: [] });
         }
 
-        // Check if the item already exists in the cart
         const itemIndex = cart.items.findIndex(item => item.book.toString() === bookId);
         if (itemIndex > -1) {
-            // Update quantity if item already exists
             cart.items[itemIndex].quantity = quantity;
         } else {
-            // Add new item to the cart
             cart.items.push({ book: bookId, quantity });
         }
 
-        // Save the cart
         await cart.save();
-        res.status(201).json(cart);
+        // Populate book details in the response if necessary
+        const populatedCart = await Cart.findById(cart._id).populate('items.book');
+        res.status(201).json(populatedCart);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Remove an item from the cart
 export const removeItemFromCart = async (req, res) => {

@@ -4,8 +4,8 @@ import { BOOK_URL } from "../constants";
 export const bookApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllBooks: builder.query({
-            query: () => ({
-                url: `${BOOK_URL}`,
+            query: (categoryId) => ({
+                url: `${BOOK_URL}${categoryId ? `?category=${categoryId}` : ''}`,
                 method: "GET",
             }),
         }),
@@ -20,7 +20,6 @@ export const bookApiSlice = apiSlice.injectEndpoints({
                 url: `${BOOK_URL}`,
                 method: "POST",
                 body: data,
-                // For file uploads, you might need to adjust the headers or use FormData
             }),
         }),
         updateBook: builder.mutation({
@@ -28,7 +27,6 @@ export const bookApiSlice = apiSlice.injectEndpoints({
                 url: `${BOOK_URL}/${id}`,
                 method: "PUT",
                 body: data,
-                // For file uploads, you might need to adjust the headers or use FormData
             }),
         }),
         deleteBook: builder.mutation({

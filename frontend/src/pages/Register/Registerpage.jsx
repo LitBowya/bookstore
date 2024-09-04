@@ -71,7 +71,7 @@ const RegisterPage = () => {
       setSuccess("Registration successful!");
       navigate("/login");
     } catch (err) {
-      setError("Failed to register. Please try again.");
+      setError("Failed to register. Please try again.", err);
     }
   };
 

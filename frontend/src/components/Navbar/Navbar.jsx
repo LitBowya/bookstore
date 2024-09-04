@@ -1,112 +1,65 @@
-// src/components/ResponsiveNavbar.jsx
-
-import React from "react";
 import {
   AppBar,
   Toolbar,
-  IconButton,
   Typography,
-  Button,
-  Menu,
-  MenuItem,
-  useMediaQuery,
-  useTheme,
+  IconButton,
+  Badge,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaSearch, FaShoppingCart, FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import NavbarCss from "./Navbar.module.css";
+import { getProfilePictureUrl } from "../../utils/profilePicture";
 
 const Navbar = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
-  const userInfo = useSelector((state) => state.auth.userInfo);
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
+    const userInfo = useSelector((state) => state.auth.userInfo);
+    const cartItems = useSelector((state) => state.cart.items);
+    const wishlist = useSelector((state) => state.wishlist.books);
+  const profilePictureUrl = getProfilePictureUrl();
   return (
     <AppBar position="static" className={NavbarCss.navbar}>
       <Toolbar className={NavbarCss.toolbar}>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          MyApp
+          <Link to="/" className={NavbarCss.link}>
+            <img
+              src="/images/gctu-logo.png"
+              alt="logo"
+              className={NavbarCss.logo}
+            />
+          </Link>
         </Typography>
-        {isMobile ? (
-          <>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={handleMenuOpen}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-            >
-              <MenuItem onClick={handleMenuClose} component={Link} to="/">
-                Home
-              </MenuItem>
-              <MenuItem onClick={handleMenuClose} component={Link} to="/about">
-                About
-              </MenuItem>
-              <MenuItem
-                onClick={handleMenuClose}
-                component={Link}
-                to="/contact"
-              >
-                <FaUser />
-              </MenuItem>
-              {userInfo ? (
-                <>
-                  <MenuItem
-                    onClick={handleMenuClose}
-                    component={Link}
-                    to="/profile"
-                  >
-                    <FaUser />
-                  </MenuItem>
-                </>
-              ) : (
-                <MenuItem
-                  onClick={handleMenuClose}
-                  component={Link}
-                  to="/login"
-                >
-                  <FaUser />
-                </MenuItem>
-              )}
-            </Menu>
-          </>
-        ) : (
-          <div>
-            <Button color="inherit" component={Link} to="/">
-              Home
-            </Button>
-            <Button color="inherit" component={Link} to="/about">
-              About
-            </Button>
-            {userInfo ? (
-              <Button color="inherit" component={Link} to="/profile">
-                <FaUser />
-              </Button>
-            ) : (
-              <Button color="inherit" component={Link} to="/login">
-                <FaUser />
-              </Button>
-            )}
-          </div>
-        )}
+
+        {/* Search Icon */}
+        <IconButton color="inherit">
+          <FaSearch />
+        </IconButton>
+
+        {/* Wishlist Icon */}
+        <IconButton color="inherit" component={Link} to="/wishlist">
+          <Badge badgeContent={wishlist.length || 0} color="error">
+            <FaHeart />
+          </Badge>
+        </IconButton>
+
+        {/* Cart Icon */}
+        <IconButton color="inherit" component={Link} to="/cart">
+          <Badge badgeContent={cartItems.length || 0} color="error">
+            <FaShoppingCart />
+          </Badge>
+        </IconButton>
+
+        {/* User Profile Icon */}
+        <IconButton component={Link} to="/profile" color="inherit">
+          {userInfo ? (
+            <img
+              src={profilePictureUrl}
+              alt="profile"
+              className={NavbarCss.profilePicture}
+            />
+          ) : (
+            <FaUser />
+          )}
+        </IconButton>
       </Toolbar>
     </AppBar>
   );

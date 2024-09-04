@@ -81,60 +81,72 @@ export const createPayment = async (req, res, next) => {
     }
 };
 
-// Initiate Payment
+// Initiate Payment and Create Order
 export const initiatePayment = async (req, res, next) => {
     try {
-        const { email, orderId } = req.body;
+        const { email, orderItems, totalPrice, shippingAddress, paymentMethod } = req.body;
 
-        if (!email || !orderId) {
+        if (!email || !orderItems || !totalPrice || !shippingAddress || !paymentMethod) {
             return res.status(400).json({
                 status: "failed",
-                message: "Email and order ID are required",
+                message: "Email, order items, total price, shipping address, and payment method are required",
             });
         }
 
-        const order = await Order.findById(orderId).populate("orderItems.book", "price");
-        if (!order) {
-            return res.status(404).json({ status: "failed", message: "Order not found" });
-        }
-
+        // Check if user exists
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ status: "failed", message: "User not found" });
         }
         const userId = user._id;
 
-        const amount = order.totalPrice;
-
+        // Prepare payment data
+        const amount = totalPrice;
         const paymentData = {
             amount: amount * 100, // Convert to kobo
             email,
             metadata: {
                 userId: userId.toString(),
-                orderId: orderId,
+                // You can provide additional metadata if needed
             },
             callback_url: process.env.PAYSTACK_CALLBACK_URL,
         };
 
-        const response = await paystack.transaction.initialize(paymentData);
+        // Initiate payment
+        const paymentResponse = await paystack.transaction.initialize(paymentData);
 
-        if (response.status) {
-            res.json({
-                status: "success",
-                message: "Payment initiated successfully",
-                data: {
-                    authorization_url: response.data.authorization_url,
-                    access_code: response.data.access_code,
-                    reference: response.data.reference,
-                },
-            });
-        } else {
-            res.status(400).json({
+        if (!paymentResponse.status) {
+            return res.status(400).json({
                 status: "failed",
-                message: response.message,
+                message: paymentResponse.message,
             });
         }
+
+        // Create the order
+        const order = new Order({
+            user: userId,
+            orderItems,
+            totalPrice,
+            shippingAddress,
+            paymentMethod, // Note: paymentMethod is used here
+            paymentReference: paymentResponse.data.reference // Save payment reference
+        });
+
+        const createdOrder = await order.save();
+
+        res.json({
+            status: "success",
+            message: "Payment initiated and order created successfully",
+            data: {
+                authorization_url: paymentResponse.data.authorization_url,
+                access_code: paymentResponse.data.access_code,
+                reference: paymentResponse.data.reference,
+                orderId: createdOrder._id,
+            },
+        });
     } catch (error) {
+        logger.error(`Error initiating payment: ${error.message}`);
+        res.status(500).json({ status: "failed", message: "Internal Server Error" });
         next(error);
     }
 };

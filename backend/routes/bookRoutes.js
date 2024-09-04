@@ -12,7 +12,7 @@ import { uploadBookFiles } from '../utils/fileUpload.js'
 const router = express.Router();
 
 router.route('/')
-    .get(getAllBooks)
+    .get(getAllBooks) // Handles query parameters
     .post(uploadBookFiles, protect, admin, addBook);
 
 router.route('/:id')

@@ -15,6 +15,9 @@ import cartRoutes from './routes/cartRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
+import statisticsRoutes from './routes/statisticsRoutes.js';
+import testimonialRoutes from './routes/testimonialRoutes.js';
+import wishlistRoutes from './routes/wishlistRoutes.js';
 
 // Import database
 import connectDB from "./config/dbConfig.js";
@@ -67,6 +70,9 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/statistics', statisticsRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 
 // 10. Error handling middleware
 app.use(errorHandler);

@@ -8,3 +8,6 @@ export const PAYMENT_URL = "/payments";
 export const CATEGORY_URL = "/categories";
 export const BOOK_URL = "/books";
 export const ORDER_URL = "/orders";
+export const STATISTICS_URL = "/statistics";
+export const TESTIMONIAL_URL = "/testimonials";
+export const WISHLIST_URL = "/wishlist";

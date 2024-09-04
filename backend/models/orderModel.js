@@ -1,5 +1,15 @@
 import mongoose from "mongoose";
 
+// Define a schema for the shipping address
+const addressSchema = new mongoose.Schema({
+    street: { type: String, required: true },
+    town: { type: String, required: true },
+    city: { type: String, required: true },
+    additionalInfo: { type: String, required: true },
+    region: { type: String, required: true }
+});
+
+// Define the order schema
 const orderSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -21,9 +31,13 @@ const orderSchema = new mongoose.Schema({
         required: true,
         default: 0.0
     },
-    payment: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Payment',
+    paymentMethod: {
+        type: String,
+        enum: ["Paystack"],
+        required: true
+    },
+    shippingAddress: {
+        type: addressSchema,
         required: true
     },
     createdAt: {
@@ -34,6 +48,7 @@ const orderSchema = new mongoose.Schema({
     timestamps: true
 });
 
+
 const Order = mongoose.model('Order', orderSchema);
 
-export default Order
+export default Order;

@@ -5,7 +5,7 @@ import logger from "../utils/logger.js";
 // Create a new order
 export const createOrder = async (req, res, next) => {
     try {
-        const { orderItems, totalPrice, paymentMethod } = req.body;
+        const { orderItems, totalPrice, paymentMethod, shippingAddress } = req.body;
 
         // Verify if books exist and are in stock
         for (let item of orderItems) {
@@ -13,7 +13,7 @@ export const createOrder = async (req, res, next) => {
             if (!book) {
                 return res.status(404).json({ status: "failed", message: `Book not found: ${item.book}` });
             }
-            if (book.stock < item.quantity) {
+            if (book.stock < item.qty) {
                 return res.status(400).json({ status: "failed", message: `Not enough stock for: ${book.title}` });
             }
         }
@@ -23,13 +23,14 @@ export const createOrder = async (req, res, next) => {
             user: req.user._id,
             orderItems,
             totalPrice,
-            paymentMethod,
+            payment: paymentMethod, // Make sure paymentMethod matches the field name in your Order model
+            shippingAddress,
         });
 
         // Decrease book stock
         for (let item of orderItems) {
             const book = await Book.findById(item.book);
-            book.stock -= item.quantity;
+            book.stock -= item.qty; // Use item.qty here to match the field name in the orderItems schema
             await book.save();
         }
 
@@ -83,3 +84,18 @@ export const getOrderById = async (req, res, next) => {
         next(error);
     }
 };
+
+export const getAllOrders = async (req, res) => {
+    try {
+        const orders = await Order.find().populate("books", "title author coverImage");
+
+        res.json({
+            status: "success",
+            message: "Orders fetched successfully",
+            orders,
+        });
+    } catch (error) {
+        console.error(error)
+    }
+
+}

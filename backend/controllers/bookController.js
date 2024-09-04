@@ -1,4 +1,5 @@
 import Book from "../models/bookModel.js";
+import Category from "../models/categoryModel.js";
 
 // Add a new book
 export const addBook = async (req, res) => {
@@ -43,11 +44,32 @@ export const addBook = async (req, res) => {
     }
 };
 
-// Get all books
+// Get all books with optional category filtering
 export const getAllBooks = async (req, res) => {
     try {
-        const books = await Book.find().populate("category", "name");
+        const { category } = req.query; // Get the category query parameter
+        const filter = category ? { category } : {}; // Filter if category is provided
+
+        const books = await Book.find(filter).populate("category", "name");
         res.json(books);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// Get books by category
+export const getBooksByCategory = async (req, res) => {
+    try {
+        const { categoryId } = req.params;
+        const books = await Book.find({ category: categoryId })
+            .populate("category", "name");
+
+        if (books.length > 0) {
+            res.json(books);
+        } else {
+            res.status(404).json({ message: "No books found for this category" });
+        }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
