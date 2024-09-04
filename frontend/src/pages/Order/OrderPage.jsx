@@ -1,11 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Grid, Paper, Typography, Box, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useInitiatePaymentMutation } from "../../slices/paymentApiSlice"; // Adjust path as needed
+import { useInitiatePaymentMutation } from "../../slices/paymentApiSlice";
+import { clearCart } from "../../redux/cart";
 
 const OrderPage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const userInfo = useSelector((state) => state.auth.userInfo);
   const shippingDetails = useSelector(
@@ -47,7 +46,8 @@ const OrderPage = () => {
         paymentMethod: "Paystack", // Add payment method field
       });
 
-        const url = response.data.data.authorization_url;
+      const url = response.data.data.authorization_url;
+      dispatch(clearCart());
 
       // Redirect to payment authorization URL
       window.location.href = url;
@@ -55,9 +55,6 @@ const OrderPage = () => {
       console.error("Payment initiation failed:", error);
     }
   };
-
-
-
 
   return (
     <Container>

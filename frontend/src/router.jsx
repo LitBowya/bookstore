@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import App from "./App";
 import Homepage from "./pages/Home/Homepage";
-import Admin from "./pages/Admin/Admin";
+import AdminLayout from "./pages/Admin/Admin";
 import WithNavbarLayout from "./layouts/WithNavbarLayout";
 import WithoutNavbarLayout from "./layouts/WithoutNavbarLayout";
 import LoginPage from "./pages/Login/Loginpage";
@@ -19,6 +19,12 @@ import CartPage from "./pages/Cart/CartPage";
 import WishlistPage from "./pages/Wishlist/WishlistPage";
 import ShippingPage from "./pages/Shipping/Shipping";
 import OrderPage from "./pages/Order/OrderPage";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import Users from "./pages/Admin/Users";
+import Books from "./pages/Admin/Books";
+import Category from "./pages/Admin/Category";
+import Orders from "./pages/Admin/Orders";
+import Payments from "./pages/Admin/Payments";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,9 +46,17 @@ const router = createBrowserRouter(
 
       {/* Admin Routes without Navbar */}
       <Route element={<WithoutNavbarLayout />}>
-        <Route path="/admin" element={<Admin />} />
-
-        {/* Admin Dashboard without Navbar */}
+        <Route element={<AdminLayout />}>
+          {" "}
+          {/* Use AdminLayout for admin routes */}
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/books" element={<Books />} />
+          <Route path="/admin/category" element={<Category />} />
+          <Route path="/admin/orders" element={<Orders />} />
+          <Route path="/admin/payment" element={<Payments />} />
+          <Route path="/admin/testimonial" element={<Users />} />
+        </Route>
       </Route>
     </Route>
   )

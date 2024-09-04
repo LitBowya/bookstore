@@ -65,13 +65,21 @@ const CartPage = () => {
   };
 
   useEffect(() => {
-    // Calculate total items in the cart
-    const totalQuantity = cartItems.reduce(
-      (acc, item) => acc + item.quantity,
-      0
-    );
-    dispatch(setTotalCartItems({ totalQuantity, totalPrice: totalPrice }));
+    // Check if the cart is empty and set quantity and price accordingly
+    const totalQuantity =
+      cartItems.length > 0
+        ? cartItems.reduce((acc, item) => acc + item.quantity, 0)
+        : 0;
+
+    const totalPrice =
+      cartItems.length > 0
+        ? cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+        : 0;
+
+    // Dispatch updated total quantity and price
+    dispatch(setTotalCartItems({ totalQuantity, totalPrice }));
   }, [cartItems, dispatch]);
+
 
   const handleProceedToShipping = () => {
     navigate("/shipping"); // Update this path based on your routing setup
