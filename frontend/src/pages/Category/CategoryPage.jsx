@@ -17,7 +17,9 @@ const CategoryPage = () => {
   // Fetch books for the specific category
   const { data: books, isLoading } = useGetBookByCategoryQuery(categoryId);
 
-  if (isLoading) return <CircularProgress />;
+    if (isLoading) return <CircularProgress />;
+
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   return (
     <Box sx={{ mb: "2rem" }}>
@@ -36,7 +38,7 @@ const CategoryPage = () => {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={book.coverImage}
+                  image={`${backendUrl}${book.coverImage}`}
                   alt={book.title}
                 />
                 <CardContent>

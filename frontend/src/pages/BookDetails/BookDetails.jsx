@@ -35,7 +35,9 @@ const BookDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleAddToCart = async () => {
     try {
@@ -105,9 +107,9 @@ const BookDetailsPage = () => {
           <Grid item xs={12} md={6}>
             <CardMedia
               component="img"
-              image={book.coverImage}
+              image={`${backendUrl}${book.coverImage}`}
               alt={book.title}
-              sx={{ borderRadius: "8px", width: "100%", height: "auto" }}
+              sx={{ borderRadius: "8px", width: "100%", height: "450px", objectFit: "cover" }}
             />
           </Grid>
 

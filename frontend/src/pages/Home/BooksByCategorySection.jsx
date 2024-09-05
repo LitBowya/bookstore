@@ -22,7 +22,9 @@ const BooksByCategorySection = () => {
     selectedCategory === "all" ? undefined : selectedCategory
   );
   const { data: categories, isLoading: isCategoriesLoading } =
-    useGetAllCategoriesQuery();
+        useGetAllCategoriesQuery();
+
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -62,7 +64,7 @@ const BooksByCategorySection = () => {
                     <CardMedia
                       component="img"
                       height="140"
-                      image={book.coverImage}
+                      image={`${backendUrl}${book.coverImage}`}
                       alt={book.title}
                     />
                     <CardContent>
@@ -70,7 +72,7 @@ const BooksByCategorySection = () => {
                       <Typography variant="body2" color="textSecondary">
                         {book.author}
                       </Typography>
-                      <Typography variant="body1">${book.price}</Typography>
+                      <Typography variant="body1">GHS {book.price}</Typography>
                     </CardContent>
                   </Card>
                 </Link>

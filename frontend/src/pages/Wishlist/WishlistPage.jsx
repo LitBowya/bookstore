@@ -55,7 +55,9 @@ const WishlistPage = () => {
       console.error(`Failed to ${dialogType} wishlist:`, error);
     }
     handleCloseDialog();
-  };
+    };
+
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   if (wishlistBooks.length === 0) {
     return (
@@ -78,7 +80,7 @@ const WishlistPage = () => {
             <Card>
               <CardMedia
                 component="img"
-                image={book.coverImage}
+                image={`${backendUrl}${book.coverImage}`}
                 alt={book.title}
                 sx={{ height: 200 }}
               />
@@ -88,7 +90,7 @@ const WishlistPage = () => {
                   Author: {book.author}
                 </Typography>
                 <Typography variant="h6" color="primary">
-                  ${book.price}
+                  GHS {book.price}
                 </Typography>
                 <Box sx={{ mt: 2 }}>
                   <Button

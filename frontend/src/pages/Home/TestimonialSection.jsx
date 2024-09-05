@@ -14,19 +14,21 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 const TestimonialsCarousel = () => {
   const { data, isLoading, error } = useGetRandomTestimonialsQuery();
-    const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex(
-        (prevIndex) => (prevIndex + 1) % (data?.testimonials.length || 1)
-      );
-    }, 5000);
+    if (data?.testimonials?.length) {
+      const interval = setInterval(() => {
+        setCurrentIndex(
+          (prevIndex) => (prevIndex + 1) % data.testimonials.length
+        );
+      }, 5000);
 
-    return () => clearInterval(interval);
-  }, [data?.testimonials.length]);
+      return () => clearInterval(interval);
+    }
+  }, [data?.testimonials]);
 
   if (isLoading) return <CircularProgress />;
   if (error)
@@ -36,8 +38,13 @@ const TestimonialsCarousel = () => {
       </Typography>
     );
 
-    const testimonials = data?.testimonials || [];
-    const profilePicture = `${backendUrl}${testimonials[currentIndex].user.profilePicture}`;
+  const testimonials = data?.testimonials || [];
+
+  // Check if there are testimonials and currentIndex is within bounds
+  const currentTestimonial = testimonials[currentIndex] || {};
+  const profilePicture = currentTestimonial.user
+    ? `${backendUrl}${currentTestimonial.user.profilePicture}`
+    : "";
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
@@ -67,22 +74,23 @@ const TestimonialsCarousel = () => {
               >
                 <Card sx={{ maxWidth: "100%" }}>
                   <CardContent>
-                    <img
-                      src={profilePicture}
-                      alt="Profile"
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                      }}
-                    />
-
+                    {profilePicture && (
+                      <img
+                        src={profilePicture}
+                        alt="Profile"
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    )}
                     <Typography variant="h6">
-                      {testimonials[currentIndex].user.name}
+                      {currentTestimonial.user?.name || "Anonymous"}
                     </Typography>
                     <Typography variant="body1">
-                      {testimonials[currentIndex].message}
+                      {currentTestimonial.message || "No message available"}
                     </Typography>
                   </CardContent>
                 </Card>

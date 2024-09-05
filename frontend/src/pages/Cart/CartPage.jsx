@@ -81,6 +81,8 @@ const CartPage = () => {
   }, [cartItems, dispatch]);
 
 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
+
   const handleProceedToShipping = () => {
     navigate("/shipping"); // Update this path based on your routing setup
   };
@@ -114,7 +116,7 @@ const CartPage = () => {
                 <Card>
                   <CardMedia
                     component="img"
-                    image={item.book.coverImage}
+                    image={`${backendUrl}${item.book.coverImage}`}
                     alt={item.book.title}
                     sx={{ height: 200 }}
                   />
@@ -127,7 +129,7 @@ const CartPage = () => {
                       Quantity: {item.quantity}
                     </Typography>
                     <Typography variant="h6" color="primary">
-                      ${item.book.price * item.quantity}
+                      GHS {item.book.price * item.quantity}
                     </Typography>
                     <Box sx={{ mt: 2 }}>
                       <Button
@@ -156,7 +158,7 @@ const CartPage = () => {
               {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
             </Typography>
             <Typography variant="h6" color="primary">
-              Total Price: ${totalPrice.toFixed(2)}
+              Total Price: GHS {totalPrice.toFixed(2)}
             </Typography>
             <Box sx={{ mt: 2 }}>
               <Button

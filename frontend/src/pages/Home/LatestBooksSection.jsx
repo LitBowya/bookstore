@@ -16,7 +16,9 @@ import { useGetAllBooksQuery } from "../../slices/bookApiSlice";
 
 const LatestBooksSection = () => {
   const { data: allBooks, isLoading } = useGetAllBooksQuery();
-  const latestBooks = allBooks?.slice(0, 4) || [];
+    const latestBooks = allBooks?.slice(0, 4) || [];
+
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   if (isLoading) return <CircularProgress />;
 
@@ -28,26 +30,27 @@ const LatestBooksSection = () => {
         </Typography>
         <Grid container spacing={2}>
           {latestBooks.map((book) => (
-              <Grid item xs={12} sm={6} md={3} lg={2} key={book._id}>
-                  <Link
+            <Grid item xs={12} sm={6} md={3} lg={2} key={book._id}>
+              <Link
                 to={`/books/${book._id}`}
                 style={{ textDecoration: "none" }}
-              ><Card>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={book.coverImage}
-                  alt={book.title}
-                />
-                <CardContent>
-                  <Typography variant="h6">{book.title}</Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {book.author}
-                  </Typography>
-                  <Typography variant="body1">${book.price}</Typography>
-                </CardContent>
-              </Card></Link>
-
+              >
+                <Card>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={`${backendUrl}${book.coverImage}`}
+                    alt={book.title}
+                  />
+                  <CardContent>
+                    <Typography variant="h6">{book.title}</Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      {book.author}
+                    </Typography>
+                    <Typography variant="body1">GHS {book.price}</Typography>
+                  </CardContent>
+                </Card>
+              </Link>
             </Grid>
           ))}
         </Grid>

@@ -11,8 +11,6 @@ const SendTestimonial = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
     const userId = userInfo.user._id;
 
-    console.log('This is the userId', userId)
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {

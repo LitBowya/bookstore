@@ -19,7 +19,7 @@ const HeroSection = () => {
       <Typography variant="h5" gutterBottom>
         Explore the latest books and more
       </Typography>
-      <Link to="/shop" style={{ textDecoration: "none" }}>
+      <Link to="/shop/all" style={{ textDecoration: "none" }}>
         <Button variant="contained" color="primary" size="large">
           Shop Now
         </Button>

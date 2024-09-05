@@ -25,6 +25,7 @@ import Books from "./pages/Admin/Books";
 import Category from "./pages/Admin/Category";
 import Orders from "./pages/Admin/Orders";
 import Payments from "./pages/Admin/Payments";
+import Testimonial from "./pages/Admin/Testimonial";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -55,7 +56,7 @@ const router = createBrowserRouter(
           <Route path="/admin/category" element={<Category />} />
           <Route path="/admin/orders" element={<Orders />} />
           <Route path="/admin/payment" element={<Payments />} />
-          <Route path="/admin/testimonial" element={<Users />} />
+          <Route path="/admin/testimonial" element={<Testimonial />} />
         </Route>
       </Route>
     </Route>

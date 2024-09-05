@@ -12,7 +12,7 @@ import { combineReducers } from 'redux';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart', 'wishlist', 'shipping'],
+    whitelist: ['cart', 'wishlist', 'shipping', 'auth'],
 };
 
 // Combine your reducers into a root reducer

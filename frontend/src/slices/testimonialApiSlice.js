@@ -1,3 +1,5 @@
+// In testimonialApiSlice.js
+
 import { apiSlice } from "./apiSlice";
 import { TESTIMONIAL_URL } from "../constants";
 
@@ -16,7 +18,24 @@ export const testimonialApiSlice = apiSlice.injectEndpoints({
                 method: "GET",
             }),
         }),
+        getAllTestimonials: builder.query({
+            query: () => ({
+                url: `${TESTIMONIAL_URL}`,
+                method: "GET",
+            }),
+        }),
+        deleteTestimonial: builder.mutation({
+            query: (id) => ({
+                url: `${TESTIMONIAL_URL}/${id}`,
+                method: "DELETE",
+            }),
+        }),
     }),
 });
 
-export const { useCreateTestimonialMutation, useGetRandomTestimonialsQuery } = testimonialApiSlice;
+export const {
+    useCreateTestimonialMutation,
+    useGetAllTestimonialsQuery,
+    useGetRandomTestimonialsQuery,
+    useDeleteTestimonialMutation
+} = testimonialApiSlice;
