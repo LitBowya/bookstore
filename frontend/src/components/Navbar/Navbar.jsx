@@ -43,7 +43,7 @@ const Navbar = () => {
         </Typography>
 
         {/* Search Icon */}
-        <IconButton color="inherit">
+        <IconButton color="inherit" component={Link} to="/search">
           <FaSearch />
         </IconButton>
 

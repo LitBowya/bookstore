@@ -4,13 +4,11 @@ import {
   Typography,
   Grid,
   CircularProgress,
-  Card,
-  CardContent,
-  CardMedia,
 } from "@mui/material";
 import { useGetAllBooksQuery } from "../../slices/bookApiSlice";
 import { useGetAllCategoriesQuery } from "../../slices/categoryApiSlice";
 import styles from "./ShopPage.module.css";
+import Book from "../../components/Book/Book";
 import PropTypes from "prop-types";
 
 const getRandomColor = () => {
@@ -79,8 +77,6 @@ const ShopPage = () => {
     error: categoriesError,
   } = useGetAllCategoriesQuery();
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
   if (booksLoading || categoriesLoading) return <CircularProgress />;
   if (booksError)
     return (
@@ -123,21 +119,7 @@ const ShopPage = () => {
                 to={`/books/${book._id}`}
                 style={{ textDecoration: "none" }}
               >
-                <Card>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={`${backendUrl}${book.coverImage}`}
-                    alt={book.title}
-                  />
-                  <CardContent>
-                    <Typography variant="h6">{book.title}</Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {book.author}
-                    </Typography>
-                    <Typography variant="body1">GHS {book.price}</Typography>
-                  </CardContent>
-                </Card>
+                <Book key={book._id} book={book} />
               </Link>
             </Grid>
           ))}

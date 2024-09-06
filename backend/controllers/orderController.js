@@ -87,7 +87,15 @@ export const getOrderById = async (req, res, next) => {
 
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find().populate("books", "title author coverImage");
+        const orders = await Order.find()
+            .populate({
+                path: 'user',
+                select: 'name email profilePicture address'
+            })
+            .populate({
+                path: 'orderItems.book',
+                select: 'title author coverImage'
+            });
 
         res.json({
             status: "success",

@@ -1,0 +1,43 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20px;
+  padding: 10px 20px;
+
+  .img {
+    width: 100px;
+    height: 100px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .author {
+    font-size: 1rem;
+    color: gray;
+  }
+
+  .btn {
+    background-color: rgb(165, 24, 24);
+    color: white;
+    transition: 0.25s all;
+  }
+}
+
+h4 {
+  margin-block: 15px;
+}
+
+.cartSummary {
+  margin-block: 20px !important;
+}
+
+.summaryText{
+    font-size: 1.125rem !important;
+}

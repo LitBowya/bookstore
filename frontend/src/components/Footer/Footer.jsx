@@ -83,8 +83,6 @@ const Footer = () => {
             </Box>
           </Grid>
         </Grid>
-
-        <Divider sx={{ my: "2rem", borderColor: "#fff" }} />
       </Container>
 
       <Box sx={{ backgroundColor: "#222", py: "1rem", mt: "2rem" }}>

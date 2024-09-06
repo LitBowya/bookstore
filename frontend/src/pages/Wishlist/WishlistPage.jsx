@@ -14,11 +14,14 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { IoHeartDislike } from "react-icons/io5";
+import { MdDelete } from "react-icons/md";
 import {
   useRemoveFromWishlistMutation,
   useClearWishlistMutation,
 } from "../../slices/wishlistApiSlice";
 import { removeBookFromWishlist, clearWishlist } from "../../redux/wishlist";
+import WishlistCss from "./WIshlist.module.css";
 
 const WishlistPage = () => {
   const dispatch = useDispatch();
@@ -55,53 +58,50 @@ const WishlistPage = () => {
       console.error(`Failed to ${dialogType} wishlist:`, error);
     }
     handleCloseDialog();
-    };
+  };
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   if (wishlistBooks.length === 0) {
     return (
       <Container>
-        <Typography variant="h4" gutterBottom>
+        <h4 className="text-center fw-bold my-3 d-flex flex-column justify-content-center align-items-center">
           Your Wishlist is Empty
-        </Typography>
+          <IoHeartDislike size={50}/>
+        </h4>
       </Container>
     );
   }
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        Your Wishlist
-      </Typography>
+      <h4 className="fw-bold my-3">Your Wishlist</h4>
       <Grid container spacing={4}>
         {wishlistBooks.map((book) => (
-          <Grid item xs={12} md={6} key={book._id}>
-            <Card>
+          <Grid item xs={12} key={book._id}>
+            <Card className={WishlistCss.card}>
               <CardMedia
                 component="img"
                 image={`${backendUrl}${book.coverImage}`}
                 alt={book.title}
-                sx={{ height: 200 }}
+                className={WishlistCss.img}
               />
-              <CardContent>
-                <Typography variant="h5">{book.title}</Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Author: {book.author}
-                </Typography>
-                <Typography variant="h6" color="primary">
-                  GHS {book.price}
-                </Typography>
-                <Box sx={{ mt: 2 }}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => handleOpenDialog("remove", book._id)}
-                  >
-                    Remove from Wishlist
-                  </Button>
-                </Box>
+              <CardContent className={WishlistCss.cardInfo}>
+                <p className={WishlistCss.title}>{book.title}</p>
+                <p className={WishlistCss.author}>{book.author}</p>
               </CardContent>
+              <CardContent>
+                <div>
+                  <h6>GHS {book.price}</h6>
+                </div>
+              </CardContent>
+              <Button
+                variant="contained"
+                onClick={() => handleOpenDialog("remove", book._id)}
+                className={WishlistCss.btn}
+              >
+                <MdDelete size={30} />
+              </Button>
             </Card>
           </Grid>
         ))}
@@ -128,7 +128,7 @@ const WishlistPage = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleConfirmAction} color="primary">
+          <Button onClick={handleConfirmAction} className="text-danger">
             Confirm
           </Button>
         </DialogActions>

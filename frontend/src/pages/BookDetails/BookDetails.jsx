@@ -127,7 +127,7 @@ const BookDetailsPage = () => {
                   {book.description}
                 </Typography>
                 <Typography variant="h5" color="primary">
-                  ${book.price}
+                  GHS {book.price}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {book.stock} in stock

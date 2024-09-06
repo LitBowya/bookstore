@@ -1,0 +1,31 @@
+.container {
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.477),
+      rgba(0, 0, 0, 0.514)
+    ),
+    url("/images/HeroSection/Academic-Presses.jpg");
+  background-size: 100%;
+  background-position-y: 50%;
+  background-position-x: right;
+  padding-block: 50px;
+
+  h4 {
+    text-align: end;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: white;
+  }
+
+  h5{
+    color: white;
+    text-align: center;
+    font-size: 1.35rem;
+  }
+
+  h6{
+    color: orange;
+    text-align: center;
+    font-size: 1.5rem;
+  }
+}

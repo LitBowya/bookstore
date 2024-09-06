@@ -35,6 +35,12 @@ export const bookApiSlice = apiSlice.injectEndpoints({
                 method: "DELETE",
             }),
         }),
+        searchBooks: builder.query({
+            query: (query) => ({
+                url: `${BOOK_URL}/search?query=${query}`,
+                method: "GET",
+            }),
+        }),
     }),
 });
 
@@ -44,4 +50,5 @@ export const {
     useAddBookMutation,
     useUpdateBookMutation,
     useDeleteBookMutation,
+    useSearchBooksQuery, // Add the search hook
 } = bookApiSlice;

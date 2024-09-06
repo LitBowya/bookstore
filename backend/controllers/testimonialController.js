@@ -46,7 +46,6 @@ export const getRandomTestimonials = async (req, res) => {
             })
         );
 
-
         res.json({
             status: "success",
             testimonials: populatedTestimonials,
@@ -56,6 +55,55 @@ export const getRandomTestimonials = async (req, res) => {
         res.status(500).json({
             status: "error",
             message: "Failed to fetch testimonials",
+            error: error.message,
+        });
+    }
+};
+
+export const getAllTestimonials = async (req, res) => {
+    try {
+        const testimonials = await Testimonial.find().populate({
+            path: 'user',
+            select: 'name profilePicture'
+        });
+
+        res.json({
+            status: "success",
+            testimonials: testimonials,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: "error",
+            message: "Failed to fetch testimonials",
+            error: error.message,
+        });
+    }
+}
+
+export const deleteTestimonial = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Find and delete the testimonial by ID
+        const deletedTestimonial = await Testimonial.findByIdAndDelete(id);
+
+        if (!deletedTestimonial) {
+            return res.status(404).json({
+                status: "error",
+                message: "Testimonial not found",
+            });
+        }
+
+        res.json({
+            status: "success",
+            message: "Testimonial deleted successfully",
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: "error",
+            message: "Failed to delete testimonial",
             error: error.message,
         });
     }

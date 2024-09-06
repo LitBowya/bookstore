@@ -10,13 +10,14 @@ import {
   Divider,
 } from "@mui/material";
 import { Facebook, Twitter, LinkedIn } from "@mui/icons-material";
+import MeetStaffCss from './MeetStaff.module.css'
 
 const staffMembers = [
   {
-    name: "John Doe",
+    name: "Kofi Amoako",
     role: "Librarian",
-    photo: "path_to_john_photo.jpg",
-    bio: "John has been with the library for over 10 years. He specializes in book recommendations and community events.",
+    photo: "/images/MeetStaff/kofi.jpg",
+    bio: "Kofi has been with the library for over 10 years. He specializes in book recommendations and community events.",
     socialLinks: {
       facebook: "https://facebook.com/johndoe",
       twitter: "https://twitter.com/johndoe",
@@ -24,10 +25,10 @@ const staffMembers = [
     },
   },
   {
-    name: "Jane Smith",
+    name: "Isaac Frimpong",
     role: "Assistant Librarian",
-    photo: "path_to_jane_photo.jpg",
-    bio: "Jane is passionate about children’s literature and organizing reading programs for kids.",
+    photo: "/images/MeetStaff/isaac.jpg",
+    bio: "Isaac is passionate about children’s literature and organizing reading programs for kids.",
     socialLinks: {
       facebook: "https://facebook.com/janesmith",
       twitter: "https://twitter.com/janesmith",
@@ -35,10 +36,10 @@ const staffMembers = [
     },
   },
   {
-    name: "Emily Johnson",
+    name: "Alice Mensah",
     role: "Library Technician",
-    photo: "path_to_emily_photo.jpg",
-    bio: "Emily is an expert in digital resources and helps patrons with e-books and online databases.",
+    photo: "/images/MeetStaff/alice.jpg",
+    bio: "Alice is an expert in digital resources and helps patrons with e-books and online databases.",
     socialLinks: {
       facebook: "https://facebook.com/emilyjohnson",
       twitter: "https://twitter.com/emilyjohnson",
@@ -49,16 +50,16 @@ const staffMembers = [
 
 const MeetOurStaff = () => {
   return (
-    <Box sx={{ backgroundColor: "#f5f5f5", padding: "2rem 0" }}>
+    <div className={MeetStaffCss.container}>
       <Container>
-        <Typography variant="h4" gutterBottom align="center">
-          Meet Our Staff
-        </Typography>
+        <h4>Meet Our Staff</h4>
         <Typography variant="body1" align="center">
           Our dedicated team is here to help you find the perfect book, assist
           with research, and make your library experience enjoyable.
         </Typography>
-        <Divider sx={{ my: "2rem" }} />
+        <div className="d-flex justify-content-center">
+          <hr />
+        </div>
         <Grid container spacing={4}>
           {staffMembers.map((staff, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
@@ -71,9 +72,10 @@ const MeetOurStaff = () => {
               >
                 <CardMedia
                   component="img"
-                  sx={{ width: 120, height: 120, borderRadius: "50%" }}
+                  sx={{ width: 200, height: 200, borderRadius: "50%" }}
                   image={staff.photo}
-                  alt={staff.name}
+                          alt={staff.name}
+                          className="my-2"
                 />
                 <CardContent>
                   <Typography variant="h6" gutterBottom>
@@ -123,7 +125,7 @@ const MeetOurStaff = () => {
           ))}
         </Grid>
       </Container>
-    </Box>
+    </div>
   );
 };
 

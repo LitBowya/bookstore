@@ -7,11 +7,12 @@ export const addBook = async (req, res) => {
         const { title, author, description, price, category, stock } = req.body;
 
         // Ensure files are available and assign paths
-        const coverImage = req.files && req.files.find(file => file.fieldname === 'coverImage')
-            ? `/${req.files.find(file => file.fieldname === 'coverImage').path}`
+        // Extract file information
+        const coverImage = req.files && req.files['coverImage']
+            ? `/${req.files['coverImage'][0].path}`
             : "";
-        const bookPdf = req.files && req.files.find(file => file.fieldname === 'bookPdf')
-            ? `/${req.files.find(file => file.fieldname === 'bookPdf').path}`
+        const bookPdf = req.files && req.files['bookPdf']
+            ? `/${req.files['bookPdf'][0].path}`
             : "";
 
         // Create a new book instance
@@ -122,10 +123,33 @@ export const deleteBook = async (req, res) => {
         const book = await Book.findById(req.params.id);
 
         if (book) {
-            await book.remove();
+            await book.deleteOne();
             res.json({ message: "Book removed" });
         } else {
             res.status(404).json({ message: "Book not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Search books by title or author
+export const searchBooks = async (req, res) => {
+    try {
+        const { query } = req.query; // Get the search query string
+
+        // Search for books with titles or authors matching the query
+        const books = await Book.find({
+            $or: [
+                { title: { $regex: query, $options: 'i' } },
+                { author: { $regex: query, $options: 'i' } }
+            ]
+        }).populate("category", "name");
+
+        if (books.length > 0) {
+            res.json(books);
+        } else {
+            res.status(404).json({ message: "No books found matching your search" });
         }
     } catch (error) {
         res.status(500).json({ message: error.message });

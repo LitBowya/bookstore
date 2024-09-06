@@ -59,9 +59,9 @@ const ShippingPage = () => {
           backgroundColor: "#fff",
         }}
       >
-        <Typography variant="h4" gutterBottom align="center">
+        <h4 className="text-center">
           Shipping Details
-        </Typography>
+        </h4>
         <TextField
           fullWidth
           margin="normal"

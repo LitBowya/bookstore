@@ -137,3 +137,33 @@ export const deleteUser = async (req, res, next) => {
         next(error);
     }
 };
+
+export const updateUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            logger.error(`User not found: ${req.params.id}`);
+            return res
+                .status(404)
+                .json({ status: "failed", message: "User not found" });
+        }
+
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        user.isAdmin = req.body.isAdmin !== undefined ? req.body.isAdmin : user.isAdmin;
+
+        const updatedUser = await user.save();
+        logger.info(`User updated successfully: ${req.params.id}`);
+        res.json({
+            status: "success",
+            message: "User updated successfully",
+            user: updatedUser,
+        });
+    } catch (error) {
+        logger.error(`Error updating user: ${error.message}`);
+        res
+            .status(500)
+            .json({ status: "failed", message: "Internal Server Error" });
+        next(error);
+    }
+};

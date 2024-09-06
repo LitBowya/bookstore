@@ -1,0 +1,95 @@
+.hero {
+  height: 70vh;
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.477),
+      rgba(0, 0, 0, 0.514)
+    ),
+    url("/images/HeroSection/background.jpg");
+  background-size: 100%;
+  background-position-y: 10%;
+  background-position-x: right;
+  position: relative;
+
+  .heroContainer {
+    height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 50px;
+
+    .heroContentLeft {
+      flex: 1;
+      position: relative;
+
+      h1 {
+        color: white;
+        font-family: "Lora";
+        font-weight: 700;
+        font-size: 3.5rem;
+      }
+
+      h3 {
+        color: orange;
+        font-family: "Merriweather";
+        font-size: 1.8rem;
+      }
+
+      p {
+        color: white;
+        font-family: "Raleway";
+        font-weight: 500;
+        margin-block: 25px;
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+    }
+
+    .heroContentRight {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      translate: all 0.25s;
+
+      .img1,
+      .img2,
+      .img3 {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.777);
+        position: absolute;
+        transform: translateY(-50%);
+        translate: all 0.25s;
+      }
+
+      .img1:hover,
+      .img2:hover,
+      .img3:hover {
+        transform: scale(1.1) translateY(-55%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.777);
+        z-index: 5;
+        cursor: pointer;
+      }
+
+      .img1 {
+        width: 230px;
+        height: 300px;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+      .img2 {
+        width: 270px;
+        height: 400px;
+        z-index: 2;
+      }
+      .img3 {
+        width: 150px;
+        height: 200px;
+        top: 50px;
+        right: 20px;
+        z-index: 1;
+      }
+    }
+  }
+}

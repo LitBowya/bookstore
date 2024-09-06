@@ -1,0 +1,9 @@
+.container{
+    padding-block: 50px;
+}
+
+h4{
+    text-align: end;
+    font-weight: 600;
+    margin-bottom: 15px;
+}

@@ -26,6 +26,7 @@ import Category from "./pages/Admin/Category";
 import Orders from "./pages/Admin/Orders";
 import Payments from "./pages/Admin/Payments";
 import Testimonial from "./pages/Admin/Testimonial";
+import Search from './pages/Search/Search';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +44,7 @@ const router = createBrowserRouter(
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/shipping" element={<ShippingPage />} />
         <Route path="/order" element={<OrderPage />} />
+        <Route path="/search" element={<Search />} />
       </Route>
 
       {/* Admin Routes without Navbar */}
