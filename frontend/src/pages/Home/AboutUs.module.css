@@ -1,29 +1,35 @@
-.container{
-    padding-block: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+.container {
+  padding-block: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 
-    .aboutUsImage{
-        flex: 1;
-        position: relative;
+  @media (max-width: 768px) {
+    & {
+      flex-direction: column;
+    }
+  }
 
-        img{
-            width: 100%;
-        }
+  .aboutUsImage {
+    flex: 1;
+    position: relative;
 
-        .img{
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: white;
-        }
+    img {
+      width: 100%;
     }
 
-    .aboutUsText{
-        flex: 1;
+    .img {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: white;
     }
+  }
+
+  .aboutUsText {
+    flex: 1;
+  }
 }

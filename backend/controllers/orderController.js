@@ -51,7 +51,7 @@ export const createOrder = async (req, res, next) => {
 // Get user orders
 export const getUserOrders = async (req, res, next) => {
     try {
-        const orders = await Order.find({ user: req.user._id }).populate("orderItems.book", "title author coverImage");
+        const orders = await Order.find({ user: req.user._id }).populate("orderItems.book", "title author coverImage bookPdf");
         res.json({
             status: "success",
             message: "User orders fetched successfully",
@@ -85,6 +85,7 @@ export const getOrderById = async (req, res, next) => {
     }
 };
 
+// Get all orders
 export const getAllOrders = async (req, res) => {
     try {
         const orders = await Order.find()

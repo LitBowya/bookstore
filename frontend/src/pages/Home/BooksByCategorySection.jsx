@@ -6,12 +6,12 @@ import {
   CircularProgress,
   Container,
 } from "@mui/material";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { useGetAllBooksQuery } from "../../slices/bookApiSlice";
 import { useGetAllCategoriesQuery } from "../../slices/categoryApiSlice";
 import CategoryTabs from "./CategoryTabs";
-import Book from '../../components/Book/Book'
-import BookCategoryCss from './BookCategory.module.css'
+import Book from "../../components/Book/Book";
+import BookCategoryCss from "./BookCategory.module.css";
 
 const BooksByCategorySection = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("all");
@@ -21,7 +21,7 @@ const BooksByCategorySection = () => {
     selectedCategory === "all" ? undefined : selectedCategory
   );
   const { data: categories, isLoading: isCategoriesLoading } =
-        useGetAllCategoriesQuery();
+    useGetAllCategoriesQuery();
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -38,22 +38,22 @@ const BooksByCategorySection = () => {
     <div className={BookCategoryCss.container}>
       <Container>
         <Box sx={{ mb: "2rem" }}>
-          <h4>
-            Books by Category
-          </h4>
+          <h4>Books by Category</h4>
           <CategoryTabs
             categories={categories}
             selectedCategory={selectedCategory}
             onCategoryChange={handleCategoryChange}
+
+            
           />
           {filteredBooks.length === 0 ? (
             <Typography variant="h6" color="textSecondary">
               No books available for this category.
             </Typography>
           ) : (
-            <Grid container spacing={2}>
+            <Grid container spacing={2} className="mt-2">
               {filteredBooks.map((book) => (
-                <Grid item xs={12} sm={6} md={3} lg={2} key={book._id}>
+                <Grid item xs={6} md={2} lg={2} key={book._id}>
                   <Link
                     to={`/books/${book._id}`}
                     style={{ textDecoration: "none" }}

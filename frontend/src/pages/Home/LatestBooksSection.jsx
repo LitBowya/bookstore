@@ -25,7 +25,7 @@ const LatestBooksSection = () => {
           </h4>
           <Grid container spacing={2}>
             {latestBooks.map((book) => (
-              <Grid item xs={12} sm={6} md={3} lg={2} key={book._id}>
+              <Grid item xs={6} sm={6} md={3} lg={2} key={book._id}>
                 <Link
                   to={`/books/${book._id}`}
                   style={{ textDecoration: "none" }}

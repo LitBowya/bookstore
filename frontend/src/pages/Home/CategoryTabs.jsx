@@ -1,6 +1,6 @@
-
 import PropTypes from "prop-types";
 import { Tabs, Tab } from "@mui/material";
+import BookCategoryCss from "./BookCategory.module.css";
 
 const CategoryTabs = ({ categories, selectedCategory, onCategoryChange }) => {
   return (
@@ -8,7 +8,11 @@ const CategoryTabs = ({ categories, selectedCategory, onCategoryChange }) => {
       value={selectedCategory}
       onChange={(event, newValue) => onCategoryChange(newValue)}
       aria-label="categories tabs"
-      centered
+      centered={false}
+      variant="scrollable"
+      scrollButtons="auto"
+      allowScrollButtonsMobile
+      className={BookCategoryCss.tab}
     >
       <Tab label="All" value="all" />
       {categories.map((category) => (
@@ -18,7 +22,6 @@ const CategoryTabs = ({ categories, selectedCategory, onCategoryChange }) => {
   );
 };
 
-// PropTypes validation
 CategoryTabs.propTypes = {
   categories: PropTypes.arrayOf(
     PropTypes.shape({
